@@ -218,7 +218,7 @@ newmodel.add(Activation('softmax'))
 
 
 newmodel.compile(loss='categorical_crossentropy', optimizer=optimizers.SGD(lr=0.001, momentum=0.9, nesterov=False), metrics=[
-                 'accuracy', Precision(), Recall(), F1Score(num_classes=maxchannels+1, average='micro')])
+                 'accuracy', Precision(), Recall()])
 
 
 lrate = LearningRateScheduler(step_decay)

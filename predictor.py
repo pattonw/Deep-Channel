@@ -141,8 +141,7 @@ in_train = dataset[:, 1]
 target_train = idataset
 in_train = in_train.reshape(len(in_train), 1, 1, 1)
 
-loaded_model = load_model('model/nmn_oversampled_deepchanel2_5.h5', custom_objects={
-                          'mcor': mcor, 'precision': precision, 'recall': recall, 'f1': f1, 'auc': auc})
+loaded_model = load_model('test_model.h5')
 
 loaded_model.summary()
 
