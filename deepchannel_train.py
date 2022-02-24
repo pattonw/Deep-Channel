@@ -34,6 +34,11 @@ from tensorflow.keras.utils import to_categorical
 from tensorflow_addons.metrics import F1Score
 
 
+physical_devices = tf.config.experimental.list_physical_devices('GPU')
+assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
+config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
+
+
 def mcor(y_true, y_pred):
     # Matthews correlation
     y_pred_pos = K.round(K.clip(y_pred, 0, 1))

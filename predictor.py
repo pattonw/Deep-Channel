@@ -25,6 +25,11 @@ from sklearn.metrics import confusion_matrix, roc_auc_score, classification_repo
 import math
 
 
+physical_devices = tf.config.experimental.list_physical_devices('GPU')
+assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
+config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
+
+
 batch_size = 256
 
 Qubname = 'outfinaltest3(NF=50Hz)_SKM_F1.csv'
