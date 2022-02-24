@@ -32,8 +32,6 @@ config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 batch_size = 256
 
-Qubname = 'outfinaltest3(NF=50Hz)_SKM_F1.csv'
-Qub2name = 'outfinaltest3(NF=50Hz)_halfamp_F1.csv'
 Dname = 'outfinaltest78.csv'
 df30 = pd.read_csv(Dname, header=None)
 dataset = df30.values
