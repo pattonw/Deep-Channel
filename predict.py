@@ -39,7 +39,6 @@ config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
     "--csv", type=click.Path(exists=True), help="The data you want to predict on."
 )
 def predict(model, csv):
-    csv_file = csv
     csv_path = Path(csv)
 
     if csv_path.is_dir():
@@ -62,7 +61,8 @@ def predict(model, csv):
 
             idealized = pd.DataFrame(c, index=dataset[:, 0])
             idealized.to_csv(csv_path / f"{csv_file.name[:-4]}_idealized.csv")
-    else:
+    elif csv_path.is_file():
+        csv_file = csv_path
         batch_size = 256
 
         csv = pd.read_csv(csv, header=None)
