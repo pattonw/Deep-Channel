@@ -133,7 +133,7 @@ def step_decay(epoch):
     return lrate
 
 
-def process_csv(csv: Path, batch_size=int):
+def process_csv(csv: Path, batch_size:int, max_channels:int):
     """
     Get train/test data from csv
     """
@@ -150,8 +150,6 @@ def process_csv(csv: Path, batch_size=int):
             f"Trying to train on csv: {csv}, but there is no ground truth data. Skipping this file!"
         )
         return None
-    maxeri = maxer.astype("int")
-    maxchannels = maxeri
     idataset = dataset[:, 2].astype(int)
     scaler = MinMaxScaler(feature_range=(0, 1))
     dataset = scaler.fit_transform(dataset)
@@ -177,7 +175,7 @@ def process_csv(csv: Path, batch_size=int):
     X_res, Y_res = sm.fit_sample(x_train, y_train)
 
     yy_res = Y_res.reshape((len(Y_res), 1))
-    yy_res = to_categorical(yy_res, num_classes=maxchannels + 1)
+    yy_res = to_categorical(yy_res, num_classes=max_channels + 1)
     xx_res, yy_res = shuffle(X_res, yy_res)
 
     trainy_size = int(len(xx_res) * 0.80)
@@ -274,7 +272,7 @@ def train(model_file, csv, num_epochs, max_channels):
         if csv.is_file()
         else [sub_csv for sub_csv in csv.iterdir() if sub_csv.name.endswith(".csv")]
     )
-    csv_data = [process_csv(csv, batch_size) for csv in csvs]
+    csv_data = [process_csv(csv, batch_size, max_channels) for csv in csvs]
     csv_data = [x for x in csv_data if x is not None]
     for i in range(num_epochs):
         for in_train, target_train, in_test, target_test in csv_data:
