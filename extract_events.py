@@ -23,15 +23,15 @@ def convert(csv, event_conductance_min, event_conductance_max):
     during_event = 0
     previous_value = None
     new_csv = []
-    for (index, time, value) in csv.iterrows():
+    for (time, value) in csv.iterrows():
         change = 0 if previous_value is None else abs(previous_value - value)
         if during_event == 0 and event_conductance_min <= change and event_conductance_max >= change:
             during_event = 1
         elif during_event == 1 and change != 0:
             during_event = 0
-        new_csv.append(time, during_event)
+        new_csv.append((time, during_event))
 
-    new_csv = pd.DataFrame(new_csv, columns=["time", "current"])
+    new_csv = pd.DataFrame(new_csv, columns=["time", "event"])
     new_csv.to_csv(csv_path.parent / f"{csv_path.name[:-4]}_events.csv")
 
 
