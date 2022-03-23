@@ -24,10 +24,10 @@ def convert(csv, event_conductance_min, event_conductance_max):
     previous_value = None
     new_csv = []
     for (time, value) in csv.iterrows():
-        change = 0 if previous_value is None else abs(previous_value - value)
+        change = 0 if previous_value is None else value - previous_value
         if during_event == 0 and event_conductance_min <= change and event_conductance_max >= change:
             during_event = 1
-        elif during_event == 1 and change != 0:
+        elif during_event == 1 and change < 0:
             during_event = 0
         new_csv.append((time, during_event))
 
