@@ -46,7 +46,7 @@ def convert(csv, event_conductance_min, event_conductance_max):
     during_event = 0
     previous_value = None
     reverse_csv = []
-    for i, (indx, time, value) in list(csv.iterrows()[::-1]):
+    for i, (indx, time, value) in list(csv.iterrows())[::-1]:
         change = 0 if previous_value is None else value - previous_value
         if (
             during_event == 0
