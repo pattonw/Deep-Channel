@@ -40,7 +40,30 @@ def convert(csv, event_conductance_min, event_conductance_max):
         previous_value = value
 
     new_csv = pd.DataFrame(new_csv, columns=["time", "event"])
-    new_csv.to_csv(csv_path.parent / f"{csv_path.name[:-4]}_events.csv")
+    new_csv.to_csv(csv_path.parent / f"{csv_path.name[:-4]}_events_rl.csv")
+
+
+    number_of_events = 0
+    previous_value = None
+    rev_csv = []
+    for i, (indx, time, value) in list(csv.iterrows())[::-1]:
+        change = 0 if previous_value is None else value - previous_value
+
+        # Start event
+        if event_conductance_min <= change and event_conductance_max >= change:
+            print(f"Starting event at time {time}")
+            number_of_events = number_of_events + 1
+
+        # End event
+        elif number_of_events > 0 and change < 0 and abs(change) > event_conductance_min:
+            print(f"Ending event at time {time}")
+            number_of_events = number_of_events - 1
+
+        rev_csv.append((time, number_of_events))
+        previous_value = value
+
+    rev_csv = pd.DataFrame(rev_csv, columns=["time", "event"])
+    rev_csv.to_csv(csv_path.parent / f"{csv_path.name[:-4]}_events_lr.csv")
 
 
 if __name__ == "__main__":
