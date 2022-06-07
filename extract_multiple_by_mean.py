@@ -25,7 +25,6 @@ def convert_mean(csv, threshold):
     )
     new_csv.to_csv(csv_path.parent / f"{csv_path.name[:-4]}_events.csv")
 
-    print(new_csv)
 
 if __name__ == "__main__":
     convert_mean()
